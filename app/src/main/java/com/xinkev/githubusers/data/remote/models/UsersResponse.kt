@@ -20,7 +20,7 @@ data class UsersResponse(
     @SerialName("html_url")
     val htmlUrl: String?,
     val id: Int,
-    val login: String?,
+    val login: String,
     @SerialName("node_id")
     val nodeId: String?,
     @SerialName("organizations_url")
