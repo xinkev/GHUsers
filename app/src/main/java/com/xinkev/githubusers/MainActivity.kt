@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         Timber.i("Timber planted!")
         setContent {
             GHUsersTheme {
-                UserListScreen(dataState = viewModel.userList.collectAsState())
+                UserListScreen(vm = viewModel)
             }
         }
     }

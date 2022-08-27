@@ -1,9 +1,14 @@
 package com.xinkev.githubusers.userList.composables
 
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -20,9 +25,23 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.xinkev.githubusers.models.User
+import com.xinkev.githubusers.models.UserList
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun UserList(modifier: Modifier = Modifier, items: UserList) {
+    LazyColumn(contentPadding = PaddingValues(16.dp), modifier = modifier) {
+        items(items = items) {
+            UserListItem(
+                modifier = Modifier.animateItemPlacement(animationSpec = tween(250)),
+                user = it
+            )
+        }
+    }
+}
 
 @Composable
-fun UserListItem(modifier: Modifier = Modifier, user: User) {
+private fun UserListItem(modifier: Modifier = Modifier, user: User) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
