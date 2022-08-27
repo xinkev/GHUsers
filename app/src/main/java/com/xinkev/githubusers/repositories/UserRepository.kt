@@ -21,7 +21,9 @@ class UserRepository @Inject constructor(
                 res.map {
                     User(
                         username = it.login,
-                        avatar = it.avatarUrl.orEmpty()
+                        avatar = it.avatarUrl.orEmpty(),
+                        type = it.type,
+                        isAdmin = it.siteAdmin
                     )
                 }
             }) {

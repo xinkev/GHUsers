@@ -30,11 +30,11 @@ data class UsersResponse(
     @SerialName("repos_url")
     val reposUrl: String?,
     @SerialName("site_admin")
-    val siteAdmin: Boolean?,
+    val siteAdmin: Boolean,
     @SerialName("starred_url")
     val starredUrl: String?,
     @SerialName("subscriptions_url")
     val subscriptionsUrl: String?,
-    val type: String?,
+    val type: String,
     val url: String?
 )
