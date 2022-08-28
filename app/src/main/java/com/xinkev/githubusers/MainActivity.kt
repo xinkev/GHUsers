@@ -4,9 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import com.xinkev.githubusers.ui.theme.GHUsersTheme
 import com.xinkev.githubusers.userList.UserListScreen
 import com.xinkev.githubusers.userList.UserListViewModel
@@ -25,18 +22,5 @@ class MainActivity : ComponentActivity() {
                 UserListScreen(vm = viewModel)
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    GHUsersTheme {
-        Greeting("Android")
     }
 }
