@@ -1,40 +1,34 @@
 package com.xinkev.githubusers.userList
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.xinkev.githubusers.ui.models.UiState
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.xinkev.githubusers.userList.composables.UserList
 import com.xinkev.githubusers.userList.composables.UserListError
+import com.xinkev.githubusers.userList.composables.UserListLoading
 
 @Composable
 fun UserListScreen(vm: UserListViewModel) {
-    val state = vm.state.collectAsState().value
+    val userList = vm.userList.collectAsLazyPagingItems()
 
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ) {
-        when (state) {
-            is UiState.Loading -> {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .size(40.dp)
-                            .align(Alignment.Center)
-                    )
-                }
+        when (val loadState = userList.loadState.refresh) {
+            is LoadState.Loading -> UserListLoading(modifier = Modifier.fillMaxSize())
+            is LoadState.Error -> {
+                UserListError(
+                    modifier = Modifier.fillMaxSize(),
+                    throwable = loadState.error,
+                    onClick = userList::retry
+                )
             }
-            is UiState.Error -> UserListError(message = state.message, onClick = vm::getUserList)
-            is UiState.Ready -> UserList(items = state.data)
+            is LoadState.NotLoading -> UserList(items = userList)
         }
     }
 }

@@ -5,13 +5,10 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -26,24 +23,42 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.items
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.xinkev.githubusers.models.User
-import com.xinkev.githubusers.models.UserList
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun UserList(modifier: Modifier = Modifier, items: UserList) {
-    LazyColumn(contentPadding = PaddingValues(horizontal = 16.dp), modifier = modifier) {
-        items(items = items) {
-            UserListItem(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .animateItemPlacement(animationSpec = tween(250)),
-                user = it
-            )
-            if (it != items.lastOrNull()) {
-                Spacer(modifier = Modifier.height(8.dp))
+fun UserList(modifier: Modifier = Modifier, items: LazyPagingItems<User>) {
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(items = items, key = { it.id }) { user ->
+            user?.let {
+                UserListItem(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .animateItemPlacement(animationSpec = tween(250)),
+                    user = it
+                )
+            }
+        }
+        if (items.loadState.append == LoadState.Loading) {
+            item {
+                UserListLoading(modifier = Modifier.fillMaxWidth())
+            }
+        } else if (items.loadState.append is LoadState.Error) {
+            item {
+                UserListError(
+                    modifier = Modifier.fillMaxWidth(),
+                    throwable = (items.loadState.append as LoadState.Error).error,
+                    onClick = items::retry
+                )
             }
         }
     }
@@ -99,7 +114,8 @@ private fun PreviewUserListItem() {
             username = "xinkev",
             avatar = "https://images.unsplash.com/photo-1661459479190-fd1cdad5ffd4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2970&q=80",
             type = "user",
-            isAdmin = false
+            isAdmin = false,
+            id = 1
         )
     )
 }
