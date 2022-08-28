@@ -21,15 +21,17 @@ import javax.inject.Singleton
 @Module
 object NetworkModule {
     @Provides
-    fun okhttpClient(@ApplicationContext context: Context): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(
-            ChuckerInterceptor.Builder(context)
-                .collector(ChuckerCollector(context))
-                .maxContentLength(250000L)
-                .redactHeaders(emptySet())
-                .alwaysReadResponseBody(false)
-                .build()
-        )
+    fun chucker(@ApplicationContext context: Context): ChuckerInterceptor =
+        ChuckerInterceptor.Builder(context)
+            .collector(ChuckerCollector(context))
+            .maxContentLength(250000L)
+            .redactHeaders(emptySet())
+            .alwaysReadResponseBody(false)
+            .build()
+
+    @Provides
+    fun okhttpClient(chucker: ChuckerInterceptor): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(chucker)
         .build()
 
     @ExperimentalSerializationApi
