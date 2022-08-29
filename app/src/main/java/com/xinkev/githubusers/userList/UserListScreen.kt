@@ -8,9 +8,9 @@ import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.xinkev.githubusers.models.User
-import com.xinkev.githubusers.userList.composables.UserList
 import com.xinkev.githubusers.ui.composables.ErrorView
 import com.xinkev.githubusers.ui.composables.Loading
+import com.xinkev.githubusers.userList.composables.UserList
 
 @Composable
 fun UserListScreen(
