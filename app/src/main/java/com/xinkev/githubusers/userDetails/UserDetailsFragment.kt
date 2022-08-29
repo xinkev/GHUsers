@@ -1,25 +1,24 @@
-package com.xinkev.githubusers.userList
+package com.xinkev.githubusers.userDetails
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material.Text
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.xinkev.githubusers.utils.composeView
-import com.xinkev.githubusers.utils.navController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class UserListFragment : Fragment() {
-    private val vm: UserListViewModel by viewModels()
+class UserDetailsFragment : Fragment() {
+    private val navArgs by navArgs<UserDetailsFragmentArgs>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View = composeView {
-        UserListScreen(vm = vm) { user ->
-            navController.navigate(UserListFragmentDirections.toDetails(user.id))
-        }
+        Text("id: ${navArgs.id}")
     }
 }

@@ -2,6 +2,7 @@ package com.xinkev.githubusers.userList.composables
 
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -32,11 +33,14 @@ import com.xinkev.githubusers.models.User
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun UserList(modifier: Modifier = Modifier, items: LazyPagingItems<User>) {
+fun UserList(
+    modifier: Modifier = Modifier,
+    items: LazyPagingItems<User>,
+    onEntryClick: (User) -> Unit
+) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        contentPadding = PaddingValues(vertical = 16.dp, horizontal = 8.dp)
     ) {
         items(items = items, key = { it.id }) { user ->
             user?.let {
@@ -44,7 +48,8 @@ fun UserList(modifier: Modifier = Modifier, items: LazyPagingItems<User>) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .animateItemPlacement(animationSpec = tween(250)),
-                    user = it
+                    user = it,
+                    onClick = { onEntryClick(it) }
                 )
             }
         }
@@ -65,9 +70,16 @@ fun UserList(modifier: Modifier = Modifier, items: LazyPagingItems<User>) {
 }
 
 @Composable
-private fun UserListItem(modifier: Modifier = Modifier, user: User) {
+private fun UserListItem(
+    modifier: Modifier = Modifier,
+    user: User,
+    onClick: () -> Unit
+) {
     Row(
-        modifier = modifier,
+        modifier = Modifier
+            .clickable(onClick = onClick)
+            .padding(vertical = 8.dp)
+            .then(modifier),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -80,7 +92,11 @@ private fun UserListItem(modifier: Modifier = Modifier, user: User) {
         if (user.isAdmin) {
             OutlinedText(color = Color.Red, text = "Admin")
         }
-        OutlinedText(color = Color.Blue, text = user.type)
+        OutlinedText(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            color = Color.Blue,
+            text = user.type
+        )
     }
 }
 
@@ -116,6 +132,7 @@ private fun PreviewUserListItem() {
             type = "user",
             isAdmin = false,
             id = 1
-        )
+        ),
+        onClick = {}
     )
 }

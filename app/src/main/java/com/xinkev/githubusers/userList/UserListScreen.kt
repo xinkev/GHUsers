@@ -7,12 +7,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.xinkev.githubusers.models.User
 import com.xinkev.githubusers.userList.composables.UserList
 import com.xinkev.githubusers.userList.composables.UserListError
 import com.xinkev.githubusers.userList.composables.UserListLoading
 
 @Composable
-fun UserListScreen(vm: UserListViewModel) {
+fun UserListScreen(
+    vm: UserListViewModel,
+    navigateToDetails: (User) -> Unit
+) {
     val userList = vm.userList.collectAsLazyPagingItems()
 
     Surface(
@@ -28,7 +32,7 @@ fun UserListScreen(vm: UserListViewModel) {
                     onClick = userList::retry
                 )
             }
-            is LoadState.NotLoading -> UserList(items = userList)
+            is LoadState.NotLoading -> UserList(items = userList, onEntryClick = navigateToDetails)
         }
     }
 }

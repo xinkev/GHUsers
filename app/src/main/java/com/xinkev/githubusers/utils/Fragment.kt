@@ -5,6 +5,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.platform.ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.xinkev.githubusers.ui.theme.GHUsersTheme
 
 fun Fragment.composeView(
@@ -18,3 +19,5 @@ fun Fragment.composeView(
         }
     }
 }
+
+val Fragment.navController get() = findNavController()
