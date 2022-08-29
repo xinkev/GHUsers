@@ -10,26 +10,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
-import coil.compose.SubcomposeAsyncImage
-import coil.request.ImageRequest
 import com.xinkev.githubusers.models.User
+import com.xinkev.githubusers.ui.composables.Avatar
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -83,7 +76,12 @@ private fun UserListItem(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Avatar(modifier = Modifier.padding(8.dp), url = user.avatar)
+        Avatar(
+            modifier = Modifier
+                .padding(8.dp)
+                .size(48.dp),
+            url = user.avatar
+        )
         Text(
             text = user.username,
             style = MaterialTheme.typography.subtitle1,
@@ -98,28 +96,6 @@ private fun UserListItem(
             text = user.type
         )
     }
-}
-
-@Composable
-private fun Avatar(modifier: Modifier, url: String) {
-    SubcomposeAsyncImage(
-        modifier = modifier.then(
-            Modifier
-                .size(48.dp)
-                .clip(CircleShape)
-        ),
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(url)
-            .crossfade(enable = true)
-            .build(),
-        contentDescription = "Avatar",
-        error = {
-            Icon(
-                imageVector = Icons.Outlined.ErrorOutline,
-                contentDescription = "Avatar failed to load."
-            )
-        }
-    )
 }
 
 @Preview(showBackground = true)
