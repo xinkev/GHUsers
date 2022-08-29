@@ -1,6 +1,6 @@
 @file:Suppress("SameParameterValue")
 
-package com.xinkev.githubusers.ui.composables
+package com.xinkev.githubusers.userDetails.composables
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
@@ -20,47 +20,45 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.xinkev.githubusers.R
+import com.xinkev.githubusers.models.UserDetails
 
 @Composable
-fun VCard(
-    github: String? = null,
-    email: String? = null,
-    twitter: String? = null,
-    blog: String? = null
-) {
+fun VCard(contactInfo: UserDetails.ContactInfo) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight(),
         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
     ) {
-        github?.let {
-            VcardButton(
-                drawable = R.drawable.ic_github,
-                description = "Click to go to twitter profile",
-                uri = "https://github.com/$it"
-            )
-        }
-        email?.let {
-            VcardButton(
-                imageVector = Icons.Filled.Email,
-                description = "",
-                uri = "mailto:$it"
-            )
-        }
-        twitter?.let {
-            VcardButton(
-                drawable = R.drawable.ic_twitter,
-                description = "Click to go to twitter profile",
-                uri = "https://twitter.com/$it"
-            )
-        }
-        blog?.let {
-            VcardButton(
-                imageVector = Icons.Filled.Link,
-                description = "",
-                uri = it
-            )
+        with(contactInfo) {
+            github?.let {
+                VcardButton(
+                    drawable = R.drawable.ic_github,
+                    description = "Click to go to twitter profile",
+                    uri = "https://github.com/$it"
+                )
+            }
+            email?.let {
+                VcardButton(
+                    imageVector = Icons.Filled.Email,
+                    description = "",
+                    uri = "mailto:$it"
+                )
+            }
+            twitter?.let {
+                VcardButton(
+                    drawable = R.drawable.ic_twitter,
+                    description = "Click to go to twitter profile",
+                    uri = "https://twitter.com/$it"
+                )
+            }
+            blog?.let {
+                VcardButton(
+                    imageVector = Icons.Filled.Link,
+                    description = "",
+                    uri = it
+                )
+            }
         }
     }
 }

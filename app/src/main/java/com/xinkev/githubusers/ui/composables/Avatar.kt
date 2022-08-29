@@ -1,5 +1,6 @@
 package com.xinkev.githubusers.ui.composables
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
@@ -13,18 +14,20 @@ import coil.request.ImageRequest
 
 @Composable
 fun Avatar(modifier: Modifier, url: String) {
-    SubcomposeAsyncImage(
-        modifier = modifier.then(Modifier.clip(CircleShape)),
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(url)
-            .crossfade(enable = true)
-            .build(),
-        contentDescription = "Avatar",
-        error = {
-            Icon(
-                imageVector = Icons.Outlined.ErrorOutline,
-                contentDescription = "Avatar failed to load."
-            )
-        }
-    )
+    Box(modifier = modifier) {
+        SubcomposeAsyncImage(
+            modifier = Modifier.clip(CircleShape),
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(url)
+                .crossfade(enable = true)
+                .build(),
+            contentDescription = "Avatar",
+            error = {
+                Icon(
+                    imageVector = Icons.Outlined.ErrorOutline,
+                    contentDescription = "Avatar failed to load."
+                )
+            }
+        )
+    }
 }

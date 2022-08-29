@@ -9,8 +9,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.xinkev.githubusers.models.User
 import com.xinkev.githubusers.userList.composables.UserList
-import com.xinkev.githubusers.userList.composables.UserListError
-import com.xinkev.githubusers.userList.composables.UserListLoading
+import com.xinkev.githubusers.ui.composables.ErrorView
+import com.xinkev.githubusers.ui.composables.Loading
 
 @Composable
 fun UserListScreen(
@@ -24,9 +24,9 @@ fun UserListScreen(
         color = MaterialTheme.colors.background
     ) {
         when (val loadState = userList.loadState.refresh) {
-            is LoadState.Loading -> UserListLoading(modifier = Modifier.fillMaxSize())
+            is LoadState.Loading -> Loading(modifier = Modifier.fillMaxSize())
             is LoadState.Error -> {
-                UserListError(
+                ErrorView(
                     modifier = Modifier.fillMaxSize(),
                     throwable = loadState.error,
                     onClick = userList::retry

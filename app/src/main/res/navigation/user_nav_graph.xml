@@ -16,7 +16,7 @@
         android:name="com.xinkev.githubusers.userDetails.UserDetailsFragment"
         android:label="UserDetailsFragment" >
         <argument
-            android:name="id"
-            app:argType="integer" />
+            android:name="username"
+            app:argType="string" />
     </fragment>
 </navigation>

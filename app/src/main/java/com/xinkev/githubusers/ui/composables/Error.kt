@@ -1,4 +1,4 @@
-package com.xinkev.githubusers.userList.composables
+package com.xinkev.githubusers.ui.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,7 +19,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun UserListError(modifier: Modifier, throwable: Throwable, onClick: () -> Unit) {
+fun ErrorView(
+    modifier: Modifier,
+    throwable: Throwable? = null,
+    message: String? = null,
+    onClick: () -> Unit
+) {
     Box(modifier) {
         Column(
             modifier = Modifier
@@ -35,7 +40,7 @@ fun UserListError(modifier: Modifier, throwable: Throwable, onClick: () -> Unit)
         ) {
             Icon(imageVector = Icons.Filled.Error, contentDescription = "Tap to try again")
             Text(
-                throwable.localizedMessage ?: throwable.message!!,
+                message ?: throwable?.localizedMessage ?: throwable?.message!!,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )

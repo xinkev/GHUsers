@@ -19,7 +19,7 @@ class UserListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = composeView {
         UserListScreen(vm = vm) { user ->
-            navController.navigate(UserListFragmentDirections.toDetails(user.id))
+            navController.navigate(UserListFragmentDirections.toDetails(user.username))
         }
     }
 }

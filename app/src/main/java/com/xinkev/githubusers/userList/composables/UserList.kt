@@ -23,6 +23,8 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import com.xinkev.githubusers.models.User
 import com.xinkev.githubusers.ui.composables.Avatar
+import com.xinkev.githubusers.ui.composables.ErrorView
+import com.xinkev.githubusers.ui.composables.Loading
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -48,11 +50,11 @@ fun UserList(
         }
         if (items.loadState.append == LoadState.Loading) {
             item {
-                UserListLoading(modifier = Modifier.fillMaxWidth())
+                Loading(modifier = Modifier.fillMaxWidth())
             }
         } else if (items.loadState.append is LoadState.Error) {
             item {
-                UserListError(
+                ErrorView(
                     modifier = Modifier.fillMaxWidth(),
                     throwable = (items.loadState.append as LoadState.Error).error,
                     onClick = items::retry
