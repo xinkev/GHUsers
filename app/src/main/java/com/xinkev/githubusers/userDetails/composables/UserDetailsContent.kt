@@ -23,11 +23,9 @@ fun UserDetailsContent(
             following = details.following,
             followers = details.followers,
             gists = details.publicGists,
-            repos = details.publicRepos
+            repos = details.publicRepos,
+            contactInfo = details.contactInfo
         )
-        Spacer(modifier = Modifier.height(4.dp))
-        Spacer(modifier = Modifier.height(8.dp))
-        VCard(contactInfo = details.contactInfo)
         Spacer(modifier = Modifier.height(16.dp))
         if (details.bio != null) {
             Bio(details.bio)

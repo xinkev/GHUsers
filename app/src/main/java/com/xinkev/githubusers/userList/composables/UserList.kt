@@ -16,7 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -29,13 +31,12 @@ import com.xinkev.githubusers.ui.composables.Loading
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun UserList(
-    modifier: Modifier = Modifier,
+    toolbarHeight: Dp,
     items: LazyPagingItems<User>,
     onEntryClick: (User) -> Unit
 ) {
     LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(vertical = 16.dp, horizontal = 8.dp)
+        contentPadding = PaddingValues(top = toolbarHeight, bottom = 16.dp, start = 8.dp, end = 8.dp)
     ) {
         items(items = items, key = { it.id }) { user ->
             user?.let {
@@ -90,11 +91,11 @@ private fun UserListItem(
             modifier = Modifier.weight(1f)
         )
         if (user.isAdmin) {
-            OutlinedText(color = Color.Red, text = "Admin")
+            UserType(color = Color(0xffe16745), text = "Admin")
         }
-        OutlinedText(
+        UserType(
             modifier = Modifier.padding(horizontal = 8.dp),
-            color = Color.Blue,
+            color = MaterialTheme.colors.primary,
             text = user.type
         )
     }

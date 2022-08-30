@@ -1,6 +1,5 @@
 package com.xinkev.githubusers.userList.composables
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -12,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun OutlinedText(
+fun UserType(
     modifier: Modifier = Modifier,
     color: Color,
     text: String
@@ -20,9 +19,8 @@ fun OutlinedText(
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(25),
-        border = BorderStroke(width = 0.7.dp, color = color),
-        color = color.copy(alpha = 0.1f),
-        contentColor = color
+        color = color,
+        contentColor = Color.White
     ) {
         Text(
             text = text,

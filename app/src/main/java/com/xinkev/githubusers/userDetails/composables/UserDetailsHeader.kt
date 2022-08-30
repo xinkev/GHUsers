@@ -3,7 +3,9 @@ package com.xinkev.githubusers.userDetails.composables
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
@@ -11,7 +13,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.xinkev.githubusers.models.UserDetails
 import com.xinkev.githubusers.ui.composables.Avatar
 
 @Composable
@@ -22,7 +28,8 @@ fun UserDetailsHeader(
     followers: Int,
     following: Int,
     repos: Int,
-    gists: Int
+    gists: Int,
+    contactInfo: UserDetails.ContactInfo
 ) {
     Column(
         modifier = Modifier
@@ -39,9 +46,10 @@ fun UserDetailsHeader(
             Text(text = name, style = MaterialTheme.typography.h5)
         }
         Text(
+            modifier = Modifier.alpha(.6f),
             text = "@$username",
             style = MaterialTheme.typography.h6,
-            color = MaterialTheme.typography.h6.color.copy(alpha = 0.6f)
+            color = MaterialTheme.typography.h6.color
         )
         Row(
             Modifier
@@ -49,24 +57,27 @@ fun UserDetailsHeader(
                 .padding(top = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Counter(what = "followers", count = followers)
-            Counter(what = "following", count = following)
-            Counter(what = "repos", count = repos)
-            Counter(what = "gists", count = gists)
+            Counter(subject = "followers", count = followers)
+            Counter(subject = "following", count = following)
+            Counter(subject = "repos", count = repos)
+            Counter(subject = "gists", count = gists)
         }
+        Spacer(modifier = Modifier.height(8.dp))
+        VCard(contactInfo = contactInfo)
     }
 }
 
 @Composable
 private fun Counter(
-    what: String,
+    subject: String,
     count: Int
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = what,
+            modifier = Modifier.alpha(.6f),
+            text = subject,
             style = MaterialTheme.typography.caption,
-            color = MaterialTheme.typography.caption.color.copy(alpha = 0.3f)
+            color = MaterialTheme.typography.caption.color
         )
         Text(text = count.toString())
     }
