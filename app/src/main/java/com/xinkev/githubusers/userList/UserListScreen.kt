@@ -1,11 +1,13 @@
 package com.xinkev.githubusers.userList
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -50,27 +52,29 @@ fun UserListScreen(
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(nestedScrollConnection)
-    ) {
-        when (val loadState = userList.loadState.refresh) {
-            is LoadState.Loading -> Loading(modifier = Modifier.fillMaxSize())
-            is LoadState.Error -> {
-                ErrorView(
-                    modifier = Modifier.fillMaxSize(),
-                    throwable = loadState.error,
-                    onClick = userList::retry
+    Surface(color = MaterialTheme.colors.background) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .nestedScroll(nestedScrollConnection)
+        ) {
+            when (val loadState = userList.loadState.refresh) {
+                is LoadState.Loading -> Loading(modifier = Modifier.fillMaxSize())
+                is LoadState.Error -> {
+                    ErrorView(
+                        modifier = Modifier.fillMaxSize(),
+                        throwable = loadState.error,
+                        onClick = userList::retry
+                    )
+                }
+                is LoadState.NotLoading -> UserList(
+                    toolbarHeight = toolbarHeight,
+                    items = userList,
+                    onEntryClick = navigateToDetails
                 )
             }
-            is LoadState.NotLoading -> UserList(
-                toolbarHeight = toolbarHeight,
-                items = userList,
-                onEntryClick = navigateToDetails
-            )
+            Toolbar(height = toolbarHeight, offset = toolbarOffsetHeightPx.value)
         }
-        Toolbar(height = toolbarHeight, offset = toolbarOffsetHeightPx.value)
     }
 }
 
