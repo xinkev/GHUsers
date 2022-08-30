@@ -1,10 +1,11 @@
 package com.xinkev.githubusers.data.remote.models
 
+import com.xinkev.githubusers.models.User
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UsersResponse(
+data class UserResponse(
     @SerialName("avatar_url")
     val avatarUrl: String?,
     @SerialName("events_url")
@@ -37,4 +38,12 @@ data class UsersResponse(
     val subscriptionsUrl: String?,
     val type: String,
     val url: String?
+)
+
+fun UserResponse.toDomainModel() = User(
+    id = id,
+    username = login,
+    avatar = avatarUrl.orEmpty(),
+    type = type,
+    isAdmin = siteAdmin
 )

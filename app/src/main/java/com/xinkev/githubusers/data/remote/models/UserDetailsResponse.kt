@@ -1,5 +1,6 @@
 package com.xinkev.githubusers.data.remote.models
 
+import com.xinkev.githubusers.models.UserDetails
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -52,4 +53,22 @@ data class UserDetailsResponse(
     @SerialName("updated_at")
     val updatedAt: String,
     val url: String
+)
+
+fun UserDetailsResponse.toDomainModel() = UserDetails(
+    id = id,
+    avatarUrl = avatarUrl,
+    username = login,
+    name = name,
+    followers = followers,
+    following = following,
+    publicGists = publicGists,
+    publicRepos = publicRepos,
+    contactInfo = UserDetails.ContactInfo(
+        twitter = twitterUsername,
+        github = htmlUrl,
+        blog = blog,
+        email = email
+    ),
+    bio = bio
 )
