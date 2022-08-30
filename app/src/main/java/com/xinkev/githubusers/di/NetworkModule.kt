@@ -4,6 +4,7 @@ import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.xinkev.githubusers.data.remote.CacheControlInterceptor
 import com.xinkev.githubusers.data.remote.GithubApi
 import dagger.Module
 import dagger.Provides
@@ -12,6 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import okhttp3.Cache
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -30,9 +32,19 @@ object NetworkModule {
             .build()
 
     @Provides
-    fun okhttpClient(chucker: ChuckerInterceptor): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(chucker)
-        .build()
+    fun okhttpClient(
+        @ApplicationContext context: Context,
+        chucker: ChuckerInterceptor,
+        cacheInterceptor: CacheControlInterceptor
+    ): OkHttpClient {
+        val cacheSize = 5 * 1024 * 1024L // 5MB
+        val cache = Cache(context.cacheDir, cacheSize)
+        return OkHttpClient.Builder()
+            .cache(cache)
+            .addInterceptor(cacheInterceptor)
+            .addInterceptor(chucker)
+            .build()
+    }
 
     @ExperimentalSerializationApi
     @Provides
