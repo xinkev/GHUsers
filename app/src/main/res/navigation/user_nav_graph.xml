@@ -6,5 +6,17 @@
     <fragment
         android:id="@+id/userListFragment"
         android:name="com.xinkev.githubusers.userList.UserListFragment"
-        android:label="UserListFragment" />
+        android:label="UserListFragment" >
+        <action
+            android:id="@+id/to_details"
+            app:destination="@id/userDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userDetailsFragment"
+        android:name="com.xinkev.githubusers.userDetails.UserDetailsFragment"
+        android:label="UserDetailsFragment" >
+        <argument
+            android:name="username"
+            app:argType="string" />
+    </fragment>
 </navigation>

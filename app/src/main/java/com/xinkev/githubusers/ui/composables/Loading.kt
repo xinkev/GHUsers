@@ -1,4 +1,4 @@
-package com.xinkev.githubusers.userList.composables
+package com.xinkev.githubusers.ui.composables
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun UserListLoading(modifier: Modifier) {
+fun Loading(modifier: Modifier) {
     Box(modifier = modifier) {
         CircularProgressIndicator(
             modifier = Modifier

@@ -1,4 +1,4 @@
-package com.xinkev.githubusers.userList
+package com.xinkev.githubusers.userDetails
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,15 +11,17 @@ import com.xinkev.githubusers.utils.navController
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class UserListFragment : Fragment() {
-    private val vm: UserListViewModel by viewModels()
+class UserDetailsFragment : Fragment() {
+    private val viewModel by viewModels<UserDetailsViewModel>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View = composeView {
-        UserListScreen(vm = vm) { user ->
-            navController.navigate(UserListFragmentDirections.toDetails(user.username))
-        }
+        UserDetailsScreen(
+            vm = viewModel,
+            navigateUp = navController::navigateUp
+        )
     }
 }
