@@ -8,16 +8,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
 import com.xinkev.githubusers.models.Repo
 import com.xinkev.githubusers.models.UserDetails
-import com.xinkev.githubusers.ui.models.UiState
 
 @Composable
 fun UserDetailsContent(
     modifier: Modifier = Modifier,
     details: UserDetails,
-    repos: UiState<List<Repo>>,
-    onRepoRetryClick: () -> Unit
+    repos: LazyPagingItems<Repo>
 ) {
     Column(modifier = modifier) {
         UserDetailsHeader(
@@ -34,7 +33,7 @@ fun UserDetailsContent(
         if (details.bio != null) {
             Bio(details.bio)
         }
-        UserRepoList(state = repos, onRetryClick = onRepoRetryClick)
+        UserRepoList(repos = repos)
     }
 }
 

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
@@ -25,31 +24,46 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.items
 import com.xinkev.githubusers.R
 import com.xinkev.githubusers.models.Repo
 import com.xinkev.githubusers.ui.composables.ErrorView
 import com.xinkev.githubusers.ui.composables.IconWithText
 import com.xinkev.githubusers.ui.composables.Loading
-import com.xinkev.githubusers.ui.models.UiState
 
 @Composable
-fun UserRepoList(state: UiState<List<Repo>>, onRetryClick: () -> Unit) {
+fun UserRepoList(repos: LazyPagingItems<Repo>) {
     Text(text = stringResource(R.string.lbl_repositories), style = MaterialTheme.typography.h6)
     Spacer(modifier = Modifier.height(8.dp))
-    when (state) {
-        is UiState.Error -> ErrorView(
+    when (val loadState = repos.loadState.refresh) {
+        is LoadState.Error -> ErrorView(
             modifier = Modifier.fillMaxWidth(),
-            onClick = onRetryClick,
-            message = state.message
+            onClick = { repos.retry() },
+            throwable = loadState.error
         )
-        is UiState.Loading -> Loading(modifier = Modifier.fillMaxWidth())
-        is UiState.Ready -> LazyColumn(
+        is LoadState.Loading -> Loading(modifier = Modifier.fillMaxWidth())
+        is LoadState.NotLoading -> LazyColumn(
             modifier = Modifier.height(400.dp),
             contentPadding = PaddingValues(vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(state.data, key = { it.id }) {
-                UserRepo(it)
+            items(repos, key = { it.id }) { repo ->
+                if (repo != null) UserRepo(repo)
+            }
+            if (repos.loadState.append == LoadState.Loading) {
+                item {
+                    Loading(modifier = Modifier.fillMaxWidth())
+                }
+            } else if (repos.loadState.append is LoadState.Error) {
+                item {
+                    ErrorView(
+                        modifier = Modifier.fillMaxWidth(),
+                        throwable = (repos.loadState.append as LoadState.Error).error,
+                        onClick = repos::retry
+                    )
+                }
             }
         }
     }

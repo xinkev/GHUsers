@@ -12,5 +12,5 @@ interface GithubRemoteDataSource {
 
     suspend fun getUserDetails(username: String): UserDetailsResponse
 
-    suspend fun getUserRepos(username: String): List<UserRepoResponse>
+    suspend fun getUserRepos(username: String, page: Int?, perPage: Int?): List<UserRepoResponse>
 }

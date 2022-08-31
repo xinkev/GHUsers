@@ -8,9 +8,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.xinkev.githubusers.ui.composables.ErrorView
 import com.xinkev.githubusers.ui.composables.Loading
 import com.xinkev.githubusers.ui.models.UiState
@@ -23,7 +23,6 @@ fun UserDetailsScreen(
     navigateUp: () -> Unit
 ) {
     val userDetailsState = vm.userDetailsState.collectAsState().value
-    val reposState by vm.reposState.collectAsState()
 
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
@@ -44,8 +43,7 @@ fun UserDetailsScreen(
                         .padding(innerPadding)
                         .verticalScroll(rememberScrollState()),
                     details = it,
-                    repos = reposState,
-                    onRepoRetryClick = vm::getUserRepos
+                    repos = vm.repoPagedList.collectAsLazyPagingItems(),
                 )
             }
         }
