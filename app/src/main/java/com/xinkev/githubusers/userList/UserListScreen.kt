@@ -1,11 +1,11 @@
 package com.xinkev.githubusers.userList
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -52,7 +52,10 @@ fun UserListScreen(
         }
     }
 
-    Surface(color = MaterialTheme.colors.background) {
+    Surface(
+        modifier = Modifier.systemBarsPadding(),
+        color = MaterialTheme.colors.background
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()

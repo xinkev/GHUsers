@@ -2,6 +2,7 @@ package com.xinkev.githubusers.userDetails
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -20,7 +21,10 @@ fun UserDetailsScreen(
 ) {
     val state = vm.userDetailsState.collectAsState().value
 
-    Scaffold(topBar = { UserDetailsToolbar(onUpButtonClick = navigateUp) }) { innerPadding ->
+    Scaffold(
+        modifier = Modifier.systemBarsPadding(),
+        topBar = { UserDetailsToolbar(onUpButtonClick = navigateUp) }
+    ) { innerPadding ->
         when (state) {
             is UiState.Error -> ErrorView(
                 modifier = Modifier.fillMaxSize(),

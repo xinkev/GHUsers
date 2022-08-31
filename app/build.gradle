@@ -73,6 +73,9 @@ dependencies {
     debugImplementation "com.github.chuckerteam.chucker:library:$chucker_version"
     releaseImplementation "com.github.chuckerteam.chucker:library-no-op:$chucker_version"
 
+    def accompanist_version = "0.25.1"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+
     implementation "androidx.paging:paging-compose:1.0.0-alpha16"
 
     implementation "com.squareup.okhttp3:okhttp:4.10.0"
