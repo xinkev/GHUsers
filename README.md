@@ -16,7 +16,8 @@ A work-in-process app that fetch users from the Github API and show them in a li
 
  - [x] User list
  - [x] Details
- - [ ] Show repositories and gists on details screen
+ - [x] Show repositories on details screen
+ - [ ] Show gists on details screen
  - [ ] Authentication
  - [ ] Follow/Unfollow someone
 
