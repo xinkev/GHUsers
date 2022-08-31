@@ -8,12 +8,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
+import com.xinkev.githubusers.models.Repo
 import com.xinkev.githubusers.models.UserDetails
 
 @Composable
 fun UserDetailsContent(
     modifier: Modifier = Modifier,
-    details: UserDetails
+    details: UserDetails,
+    repos: LazyPagingItems<Repo>
 ) {
     Column(modifier = modifier) {
         UserDetailsHeader(
@@ -30,6 +33,7 @@ fun UserDetailsContent(
         if (details.bio != null) {
             Bio(details.bio)
         }
+        UserRepoList(repos = repos)
     }
 }
 

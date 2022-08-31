@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GHUsers</string>
+    <string name="lbl_repositories">Repositories</string>
 </resources>
