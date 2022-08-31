@@ -1,6 +1,7 @@
 package com.xinkev.githubusers.data.remote
 
 import com.xinkev.githubusers.data.remote.models.UserDetailsResponse
+import com.xinkev.githubusers.data.remote.models.UserRepoResponse
 import com.xinkev.githubusers.data.remote.models.UserResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -25,4 +26,20 @@ interface GithubApi {
     @GET("users/{username}")
     @Headers("Accept: application/vnd.github+json")
     suspend fun getUserDetails(@Path("username") username: String): UserDetailsResponse
+
+    /**
+     * Get a list of public repo of a user.
+     *
+     *  [Docs](https://docs.github.com/en/rest/repos/repos#list-repositories-for-a-user)
+     */
+    @GET("users/{username}/repos")
+    @Headers("Accept: application/vnd.github+json")
+    suspend fun getUserRepos(
+        @Path("username") username: String,
+        @Query("type") type: String? = null,
+        @Query("sort") sort: String? = null,
+        @Query("direction") direction: String? = null,
+        @Query("per_page") perPage: Int? = null,
+        @Query("page") page: Int? = null
+    ): List<UserRepoResponse>
 }

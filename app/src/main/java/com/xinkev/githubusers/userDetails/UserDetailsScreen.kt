@@ -3,9 +3,12 @@ package com.xinkev.githubusers.userDetails
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.xinkev.githubusers.ui.composables.ErrorView
@@ -19,26 +22,30 @@ fun UserDetailsScreen(
     vm: UserDetailsViewModel,
     navigateUp: () -> Unit
 ) {
-    val state = vm.userDetailsState.collectAsState().value
+    val userDetailsState = vm.userDetailsState.collectAsState().value
+    val reposState by vm.reposState.collectAsState()
 
     Scaffold(
         modifier = Modifier.systemBarsPadding(),
         topBar = { UserDetailsToolbar(onUpButtonClick = navigateUp) }
     ) { innerPadding ->
-        when (state) {
+        when (userDetailsState) {
             is UiState.Error -> ErrorView(
                 modifier = Modifier.fillMaxSize(),
-                message = state.message,
+                message = userDetailsState.message,
                 onClick = vm::getUserDetails
             )
             is UiState.Loading -> Loading(modifier = Modifier.fillMaxSize())
-            is UiState.Ready -> state.data?.let {
+            is UiState.Ready -> userDetailsState.data?.let {
                 UserDetailsContent(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp)
-                        .padding(innerPadding),
-                    details = it
+                        .padding(innerPadding)
+                        .verticalScroll(rememberScrollState()),
+                    details = it,
+                    repos = reposState,
+                    onRepoRetryClick = vm::getUserRepos
                 )
             }
         }

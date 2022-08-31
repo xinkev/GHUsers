@@ -1,6 +1,7 @@
 package com.xinkev.githubusers.data.remote
 
 import com.xinkev.githubusers.data.remote.models.UserDetailsResponse
+import com.xinkev.githubusers.data.remote.models.UserRepoResponse
 import com.xinkev.githubusers.data.remote.models.UserResponse
 
 interface GithubRemoteDataSource {
@@ -10,4 +11,6 @@ interface GithubRemoteDataSource {
     ): List<UserResponse>
 
     suspend fun getUserDetails(username: String): UserDetailsResponse
+
+    suspend fun getUserRepos(username: String): List<UserRepoResponse>
 }
