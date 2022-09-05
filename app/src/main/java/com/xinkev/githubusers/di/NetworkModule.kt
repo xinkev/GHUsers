@@ -3,9 +3,7 @@ package com.xinkev.githubusers.di
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.xinkev.githubusers.data.remote.CacheControlInterceptor
-import com.xinkev.githubusers.data.remote.GithubApi
 import com.xinkev.githubusers.data.remote.GithubRemoteDataSource
 import com.xinkev.githubusers.data.remote.GithubRemoteDataSourceDefault
 import dagger.Binds
@@ -14,12 +12,17 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.ExperimentalSerializationApi
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.headers
+import io.ktor.http.HttpHeaders
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import okhttp3.Cache
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -53,16 +56,22 @@ interface NetworkModule {
                 .build()
         }
 
-        @ExperimentalSerializationApi
-        @Provides
-        fun retrofit(json: Json, client: OkHttpClient): Retrofit = Retrofit.Builder()
-            .client(client)
-            .baseUrl("https://api.github.com")
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-            .build()
-
         @Singleton
         @Provides
-        fun githubApi(retrofit: Retrofit): GithubApi = retrofit.create(GithubApi::class.java)
+        fun client(json: Json, okhttp: OkHttpClient) = HttpClient(OkHttp) {
+            install(ContentNegotiation) {
+                json(json = json)
+            }
+            install(DefaultRequest)
+            defaultRequest {
+                url("https://api.github.com")
+                headers {
+                    append(HttpHeaders.Accept, "application/vnd.github+json")
+                }
+            }
+            engine {
+                preconfigured = okhttp
+            }
+        }
     }
 }
