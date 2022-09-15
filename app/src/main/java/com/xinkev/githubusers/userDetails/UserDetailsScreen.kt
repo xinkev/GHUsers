@@ -39,11 +39,11 @@ fun UserDetailsScreen(
                 UserDetailsContent(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp)
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
                         .padding(innerPadding)
                         .verticalScroll(rememberScrollState()),
                     details = it,
-                    repos = vm.repoPagedList.collectAsLazyPagingItems(),
+                    repos = vm.repoPagedList.collectAsLazyPagingItems()
                 )
             }
         }
