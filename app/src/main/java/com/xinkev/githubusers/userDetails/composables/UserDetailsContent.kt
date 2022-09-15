@@ -33,6 +33,7 @@ fun UserDetailsContent(
         if (details.bio != null) {
             Bio(details.bio)
         }
+        Spacer(modifier = Modifier.height(16.dp))
         UserRepoList(repos = repos)
     }
 }
