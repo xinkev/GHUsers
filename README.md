@@ -1,6 +1,8 @@
 # GHUsers
 A work-in-process app that fetch users from the Github API and show them in a list. 
 
+<img src="./etc/UserList.png" width="200">  <img src="./etc/UserDetails.png" width="200">
+
 ## Development
  - Entirely written in [Kotlin](https://kotlinlang.org/).
  - UI is written with [Jetpack Compose](https://developer.android.com/jetpack/compose).
