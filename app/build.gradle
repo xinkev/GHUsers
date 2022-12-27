@@ -51,6 +51,7 @@ android {
 }
 
 dependencies {
+    implementation project(':data')
     implementation libs.android.core
     implementation libs.lifecycle.runtime
     implementation libs.activity.compose
