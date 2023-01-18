@@ -6,7 +6,7 @@
 import SwiftUI
 import shared
 
-@MainActor class UsersViewModel: ObservableObject {
+@MainActor class UserListViewModel: ObservableObject {
     @Published var users = [User]()
     private let pager: Pager<KotlinInt, User>
     var hasNextPage = false

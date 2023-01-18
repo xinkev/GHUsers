@@ -7,7 +7,7 @@ import shared
 import SwiftUI
 
 struct UserListView: View {
-    @StateObject private var viewModel = UsersViewModel(repo: RepositoryResolver.shared.githubUserRepository)
+    @StateObject private var viewModel = UserListViewModel(repo: RepositoryResolver.shared.githubUserRepository)
 
     var body: some View {
         NavigationView {
@@ -16,7 +16,7 @@ struct UserListView: View {
                     ZStack {
                         UserListItem(user: user)
                         NavigationLink {
-                            Text("hi")
+                            UserDetailsView(username: user.username)
                         } label: {
                             EmptyView()
                         }
@@ -24,27 +24,15 @@ struct UserListView: View {
                 }
 
                 if viewModel.shouldDisplayNextPage {
-                    nextPageView
+                    NextPageView().onAppear {
+                        viewModel.fetchNextPage()
+                    }
                 }
             }
             .navigationTitle("GHUsers")
             .onAppear {
                 viewModel.fetchUsers()
             }
-        }
-    }
-
-    private var nextPageView: some View {
-        HStack {
-            Spacer()
-            VStack {
-                ProgressView()
-                Text("Loading next page...")
-            }
-            Spacer()
-        }
-        .onAppear {
-            viewModel.fetchNextPage()
         }
     }
 }

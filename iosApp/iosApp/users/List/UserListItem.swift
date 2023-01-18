@@ -11,6 +11,7 @@ struct UserListItem: View {
     var body: some View {
         HStack {
             Avatar(path: user.avatar)
+                    .frame(width: 48, height: 48)
             Text(user.username)
                 .font(.caption)
             Spacer()
@@ -23,7 +24,7 @@ struct UserListItem: View {
     }
 }
 
-struct UserType: View {
+fileprivate struct UserType: View {
     let type: String
     var isAdmin: Bool = false
     var backgroundColor: Color {
@@ -45,26 +46,3 @@ struct UserType: View {
     }
 }
 
-struct Avatar: View {
-    let path: String?
-    private var url: URL? {
-        guard let path = path else { return nil }
-        return URL(string: path)
-    }
-
-    var body: some View {
-        if let url = url {
-            AsyncImage(url: url) { image in
-                image.resizable()
-            } placeholder: {
-                ProgressView()
-            }
-            .frame(width: 48, height: 48)
-            .clipShape(RoundedRectangle(cornerRadius: 25))
-        } else {
-            RoundedRectangle(cornerRadius: 25)
-                .frame(width: 48, height: 48)
-                .foregroundColor(.gray)
-        }
-    }
-}

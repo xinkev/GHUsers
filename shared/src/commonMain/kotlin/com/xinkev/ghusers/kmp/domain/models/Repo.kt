@@ -5,7 +5,7 @@ data class Repo(
     val fullName: String,
     val archived: Boolean,
     val hasIssues: Boolean,
-    val description: String?,
+    val repoDescription: String?,
     val forksCount: Int,
     val starGazersCount: Int,
     val openIssuesCount: Int,

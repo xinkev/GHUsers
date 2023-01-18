@@ -91,11 +91,12 @@ private fun UserRepo(repo: Repo) {
             style = MaterialTheme.typography.overline,
             color = Color(0xff81bded)
         )
-        if (repo.description != null) Text(text = repo.description!!)
+        if (repo.repoDescription != null) Text(text = repo.repoDescription!!)
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(top = 8.dp)
         ) {
+            // TODO: Refactor
             CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.caption) {
                 if (repo.language != null) Text(text = repo.language!!)
                 IconWithText(
