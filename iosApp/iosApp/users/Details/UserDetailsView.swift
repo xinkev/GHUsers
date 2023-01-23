@@ -25,6 +25,16 @@ struct UserDetailsView: View {
                         viewModel.fetchRepositories(for: username)
                     }
             }
+            if let bio = viewModel.userDetails?.bio {
+                Text("Bio")
+                        .font(.title3)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding([.leading, .trailing])
+                Text(bio)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding([.leading, .trailing])
+                        .padding(.bottom, 8)
+            }
             if viewModel.showReposLoading {
                 ProgressView()
             } else {

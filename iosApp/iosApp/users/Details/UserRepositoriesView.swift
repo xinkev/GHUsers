@@ -12,14 +12,19 @@ struct UserRepositoriesView: View {
 
     var body: some View {
         List {
-            ForEach(userRepos, id: \.id) { repo in
-                RepositoryListItem(repo: repo)
-            }
-            if viewModel.showReposNextPage {
-                NextPageView().onAppear {
-                    viewModel.fetchNextRepositoriesPage()
+            Section {
+                ForEach(userRepos, id: \.id) { repo in
+                    RepositoryListItem(repo: repo)
                 }
-            }
+
+                if viewModel.showReposNextPage {
+                    NextPageView().onAppear {
+                        viewModel.fetchNextRepositoriesPage()
+                    }
+                }
+            } header: {
+                Text("Repositories")
+            }.listStyle(.inset)
         }
     }
 }
